@@ -1,0 +1,67 @@
+// C programming language
+// Input: An adjacency matrix of an undirected graph with at most 100 vertices
+// Output: Draw the graph
+// Notes: require "graphics.h" that may be NOT in the library of header files 
+
+#include <stdio.h>
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+#define DEC (3.14159/180)
+#include <stdlib.h>
+
+struct coordinate
+{
+   int x;
+   int y;
+}coordinate;
+
+int main()
+{
+    int n = 12;
+    int AdjacencyMatrix[12][12] =
+    {{0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+    {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0},
+    {0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1},
+    {0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0},
+    {0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
+    {1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+    {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+    {1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0},
+    {0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0},
+    {0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0},
+    {1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0}};
+
+	initgraph(1080, 640);
+	if(n>99)return 0;
+	double ang = 360/n;
+	struct coordinate *coordArray = (struct coordinate *)malloc(n * sizeof(struct coordinate));
+	for(int i = 0; i < n; i++ ){
+        double tem = i*ang*DEC;
+        int x = 540+240*cos(tem);
+        int y = 320-240*sin(tem);
+        coordArray[i].x = 540+220*cos(tem);
+        coordArray[i].y = 320-220*sin(tem);
+        circle(x, y, 20);
+        if(n>10 && i>9){
+            char ch1 = '0' + i/10;
+            char ch2 = '0' + i%10;
+            outtextxy(x-7, y-7, ch1);
+            outtextxy(x+1, y-7, ch2);
+        }
+        else{
+            char ch = '0' + i;
+            outtextxy(x-3, y-7, ch);
+        }
+
+	}
+
+  for(int i = 0; i < n; i++ )
+      for(int j = i; j < n; j++ )
+          if(AdjacencyMatrix[i][j] == 1)line(coordArray[i].x, coordArray[i].y, coordArray[j].x, coordArray[j].y);
+
+	getch();
+	closegraph();
+	return 0;
+}
